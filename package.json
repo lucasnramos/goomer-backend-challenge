@@ -2,10 +2,12 @@
   "name": "goomerdev-api",
   "version": "1.0.0",
   "description": "",
-  "type": "esmodule",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "nodemon",
+    "serve": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "Lucas Nogueira Ramos",
@@ -17,6 +19,8 @@
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^20.6.3",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }
