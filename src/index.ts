@@ -14,7 +14,7 @@ const connection = createConnection({
 });
 connection.connect();
 
-app.get("/restaurant", (_: Request, res: Response) => {
+app.get("/restaurants", (_: Request, res: Response) => {
   connection.query(
     "SELECT * FROM restaurant",
     (err: MysqlError | null, results?: Restaurant[]) => {
@@ -27,7 +27,7 @@ app.get("/restaurant", (_: Request, res: Response) => {
   );
 });
 
-app.post("/restaurant", (req: Request, res: Response) => {
+app.post("/restaurants", (req: Request, res: Response) => {
   const restaurant: Restaurant = req.body;
   connection.query(
     `INSERT INTO restaurant (name, address, business_hours, picture_url) VALUES ('${restaurant.name}', '${restaurant.address}', '${restaurant.businessHours}', '${restaurant.picture}')`,
@@ -42,7 +42,7 @@ app.post("/restaurant", (req: Request, res: Response) => {
   );
 });
 
-app.put("/restaurant", (req: Request, res: Response) => {
+app.put("/restaurants", (req: Request, res: Response) => {
   const restaurant: Restaurant = req.body;
   connection.query(
     `UPDATE restaurant
@@ -59,7 +59,7 @@ app.put("/restaurant", (req: Request, res: Response) => {
   );
 });
 
-app.delete("/restaurant", (req: Request, res: Response) => {
+app.delete("/restaurants", (req: Request, res: Response) => {
   connection.query(
     `DELETE FROM restaurant WHERE id=${req.query.id}`,
     (err, dbRes) => {
