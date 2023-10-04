@@ -16,9 +16,9 @@ let getAllRestaurants: GetAllRestaurantsUseCase = new GetAllRestaurantsUseCase(
   repository
 );
 
-router.get("/restaurants", (_, res) => {
+router.get("/restaurants", async (_, res) => {
   try {
-    const restaurants = getAllRestaurants.execute();
+    const restaurants = await getAllRestaurants.execute();
     res.send(restaurants);
   } catch (error) {
     console.error("Failed to retrieve data", error);
