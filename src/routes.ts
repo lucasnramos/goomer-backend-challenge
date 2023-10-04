@@ -4,17 +4,20 @@ import {
   IRestaurantRespository,
   MySQLRestaurantRepository,
 } from "./repositories/restaurant-repository.js";
-import GetAllRestaurantsUseCase from "./use-cases/restaurant-use-cases.js";
+import {
+  CreateRestaurantsUseCase,
+  GetAllRestaurantsUseCase,
+} from "./use-cases/restaurant-use-cases.js";
 
 const router = Router();
 
 const dataSource = pool;
-let repository: IRestaurantRespository = new MySQLRestaurantRepository(
+const repository: IRestaurantRespository = new MySQLRestaurantRepository(
   dataSource
 );
-let getAllRestaurants: GetAllRestaurantsUseCase = new GetAllRestaurantsUseCase(
-  repository
-);
+const getAllRestaurants: GetAllRestaurantsUseCase =
+  new GetAllRestaurantsUseCase(repository);
+const createRestaurant = new CreateRestaurantsUseCase(repository);
 
 router.get("/restaurants", async (_, res) => {
   try {
@@ -29,9 +32,15 @@ router.get("/restaurants/:id", (_, res) => {
   console.log("hello from api/v1");
   res.sendStatus(200);
 });
-router.post("/restaurants", (_, res) => {
-  console.log("hello from api/v1");
-  res.sendStatus(200);
+router.post("/restaurants", async (req, res) => {
+  try {
+    const restaurant = req.body;
+    await createRestaurant.execute(restaurant);
+    res.sendStatus(201);
+  } catch (error) {
+    console.error("Failed to retrieve data", error);
+    res.status(500).send("Failed to retrieve data");
+  }
 });
 router.put("/restaurants/:id", (_, res) => {
   console.log("hello from api/v1");

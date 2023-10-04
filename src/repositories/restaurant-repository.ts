@@ -27,4 +27,21 @@ export class MySQLRestaurantRepository implements IRestaurantRespository {
     }
   }
 
+  async create(props: Restaurant): Promise<void> {
+    const getConnection = promisify(this.dataSource.getConnection).bind(
+      this.dataSource
+    );
+    const query = promisify(this.dataSource.query).bind(this.dataSource);
+
+    try {
+      const connection: PoolConnection = await getConnection();
+      await query(
+        `INSERT INTO restaurant (name, address, businessHours, pictureUrl) VALUES ('${props.name}', '${props.address}', '${props.businessHours}', '${props.pictureUrl}')`
+      );
+      connection.release();
+    } catch (err) {
+      console.error("Error in create: ", err);
+      throw err;
+    }
+  }
 }
