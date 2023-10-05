@@ -1,11 +1,6 @@
-# My implementation of the Goomer backend challenge from [Their Github](https://github.com/goomerdev/job-dev-backend-interview)
+# Restaurant management API
 
-## Stack
-
-- Node.js
-- TypeScript
-- express.js
-- MySQL
+This is my implementation of the Goomer backend challenge from [Github](https://github.com/goomerdev/job-dev-backend-interview)
 
 ## Motivation
 
@@ -14,6 +9,13 @@ Since I already work with JavaScript / TypeScript on a daily basis, using a
 Node.js solution to get my feet wet seems like a good choice
 
 I'm trying to implemement this repo using Clean Architecture
+
+## Base Stack
+
+- Node.js
+- TypeScript
+- express.js
+- MySQL
 
 ## TODO
 
