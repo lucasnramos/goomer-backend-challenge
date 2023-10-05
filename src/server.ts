@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use("/api/v1", router);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+export { server };
