@@ -17,11 +17,11 @@ I'm trying to implemement this repo using Clean Architecture
 
 ## TODO
 
-- [ ] CRUD for restaurants => In progress
-- [ ] Add automated tests with Jest or Vitest
-- [ ] Validate DateTime
+- [x] CRUD for Restaurants
 - [ ] CRUD for Products
 - [ ] Ability to add discounts to products
+- [ ] Add automated tests with Jest or Vitest
+- [ ] Validate date and time for restaurant business hours
 - [ ] Documentation in Portuguese
 - [ ] Deployment to cloud solution
 - [ ] CI/CD using Github actions
