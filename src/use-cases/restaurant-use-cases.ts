@@ -30,6 +30,20 @@ export class CreateRestaurantsUseCase {
 export class DeleteRestaurantUsecase {
   constructor(private restaurantRepository: IRestaurantRespository) {}
   async execute(id: string) {
-    return this.restaurantRepository.delete(id);
+    return await this.restaurantRepository.delete(id);
+  }
+}
+
+export class GetRestaurantUseCase {
+  constructor(private restaurantRepository: IRestaurantRespository) {}
+  async execute(id: string): Promise<Restaurant> {
+    return await this.restaurantRepository.findById(id);
+  }
+}
+
+export class UpdateRestaurantUseCase {
+  constructor(private restaurantRepository: IRestaurantRespository) {}
+  async execute(props: Restaurant): Promise<void> {
+    return await this.restaurantRepository.update(props);
   }
 }
