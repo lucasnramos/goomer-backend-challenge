@@ -26,3 +26,10 @@ export class CreateRestaurantsUseCase {
     return await this.restaurantRepository.create(restaurant);
   }
 }
+
+export class DeleteRestaurantUsecase {
+  constructor(private restaurantRepository: IRestaurantRespository) {}
+  async execute(id: string) {
+    return this.restaurantRepository.delete(id);
+  }
+}

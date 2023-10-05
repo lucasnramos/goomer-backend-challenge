@@ -5,6 +5,7 @@ import Restaurant from "../entities/restaurant.js";
 export interface IRestaurantRespository {
   findAll(): Promise<Restaurant[]>;
   create(props: Restaurant): Promise<void>;
+  delete(id: string): Promise<void>;
 }
 
 export class MySQLRestaurantRepository implements IRestaurantRespository {
@@ -41,6 +42,22 @@ export class MySQLRestaurantRepository implements IRestaurantRespository {
       connection.release();
     } catch (err) {
       console.error("Error in create: ", err);
+      throw err;
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    const getConnection = promisify(this.dataSource.getConnection).bind(
+      this.dataSource
+    );
+    const query = promisify(this.dataSource.query).bind(this.dataSource);
+
+    try {
+      const connection: PoolConnection = await getConnection();
+      await query(`DELETE FROM restaurant WHERE id = ${id}`);
+      connection.release();
+    } catch (err) {
+      console.error(`Error in Deleting id ${id}`, err);
       throw err;
     }
   }

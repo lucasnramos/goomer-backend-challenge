@@ -6,6 +6,7 @@ import {
 } from "./repositories/restaurant-repository.js";
 import {
   CreateRestaurantsUseCase,
+  DeleteRestaurantUsecase,
   GetAllRestaurantsUseCase,
 } from "./use-cases/restaurant-use-cases.js";
 
@@ -18,6 +19,7 @@ const repository: IRestaurantRespository = new MySQLRestaurantRepository(
 const getAllRestaurants: GetAllRestaurantsUseCase =
   new GetAllRestaurantsUseCase(repository);
 const createRestaurant = new CreateRestaurantsUseCase(repository);
+const deleteRestaurant = new DeleteRestaurantUsecase(repository);
 
 router.get("/restaurants", async (_, res) => {
   try {
@@ -46,9 +48,15 @@ router.put("/restaurants/:id", (_, res) => {
   console.log("hello from api/v1");
   res.sendStatus(200);
 });
-router.delete("/restaurants/:id", (_, res) => {
-  console.log("hello from api/v1");
-  res.sendStatus(200);
+router.delete("/restaurants/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    await deleteRestaurant.execute(id);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Failed do delete resource", error);
+    res.status(500).send("Failed do delete resource");
+  }
 });
 
 export default router;
