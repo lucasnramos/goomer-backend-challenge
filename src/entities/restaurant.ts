@@ -1,5 +1,5 @@
 export default class Restaurant {
-  id?: number;
+  id?: string;
   name: string;
   address: string;
   businessHours: string;
@@ -7,7 +7,7 @@ export default class Restaurant {
 
   constructor(
     { name, address, businessHours, pictureUrl }: Restaurant,
-    id?: number
+    id?: string
   ) {
     this.name = name;
     this.address = address;

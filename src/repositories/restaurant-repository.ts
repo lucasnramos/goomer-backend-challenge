@@ -101,3 +101,34 @@ export class MySQLRestaurantRepository implements IRestaurantRespository {
     }
   }
 }
+
+export class InMemoryRestaurantRepository implements IRestaurantRespository {
+  private restaurants: Restaurant[] = [];
+
+  async findAll(): Promise<Restaurant[]> {
+    return this.restaurants;
+  }
+  async findById(id: string): Promise<Restaurant> {
+    const res = this.restaurants.find((restaurant) => restaurant.id === id);
+    if (res) {
+      return res;
+    } else {
+      return {} as Restaurant;
+    }
+  }
+  async create(props: Restaurant): Promise<void> {
+    this.restaurants.push(props);
+  }
+  async delete(id: string): Promise<void> {
+    const index = this.restaurants.findIndex(
+      (restaurant) => restaurant.id === id
+    );
+    if (index > -1) {
+      this.restaurants.splice(index, 1);
+    }
+  }
+  async update(props: Restaurant): Promise<void> {
+    // push for now, so that we can test
+    this.restaurants.push(props);
+  }
+}
