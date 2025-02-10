@@ -2,6 +2,7 @@ import { Router } from "express";
 import pool from "./adapters/mysql-adapter";
 import {
   IRestaurantRespository,
+  InMemoryRestaurantRepository,
   MySQLRestaurantRepository,
 } from "./repositories/restaurant-repository";
 import {
@@ -15,9 +16,12 @@ import {
 const router = Router();
 
 const dataSource = pool;
-const repository: IRestaurantRespository = new MySQLRestaurantRepository(
-  dataSource
-);
+// use a simple in memory repository for initial testing purposes
+const repository: IRestaurantRespository =
+  process.env.NODE_ENV === "test"
+    ? new InMemoryRestaurantRepository()
+    : new MySQLRestaurantRepository(dataSource);
+
 const getAllRestaurants: GetAllRestaurantsUseCase =
   new GetAllRestaurantsUseCase(repository);
 const createRestaurant = new CreateRestaurantsUseCase(repository);

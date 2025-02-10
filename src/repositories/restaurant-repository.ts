@@ -1,6 +1,7 @@
 import { Pool, PoolConnection } from "mysql";
 import { promisify } from "util";
 import Restaurant from "../entities/restaurant.js";
+import { randomUUID } from "crypto";
 
 export interface IRestaurantRespository {
   findAll(): Promise<Restaurant[]>;
@@ -99,5 +100,37 @@ export class MySQLRestaurantRepository implements IRestaurantRespository {
       console.error(`Error in Deleting id ${restaurant}`, err);
       throw err;
     }
+  }
+}
+
+export class InMemoryRestaurantRepository implements IRestaurantRespository {
+  private restaurants: Restaurant[] = [];
+
+  async findAll(): Promise<Restaurant[]> {
+    return this.restaurants;
+  }
+  async findById(id: string): Promise<Restaurant> {
+    const res = this.restaurants.find((restaurant) => restaurant.id === id);
+    if (res) {
+      return res;
+    } else {
+      return {} as Restaurant;
+    }
+  }
+  async create(props: Restaurant): Promise<void> {
+    const id = randomUUID();
+    this.restaurants.push({ ...props, id });
+  }
+  async delete(id: string): Promise<void> {
+    const index = this.restaurants.findIndex(
+      (restaurant) => restaurant.id === id
+    );
+    if (index > -1) {
+      this.restaurants.splice(index, 1);
+    }
+  }
+  async update(props: Restaurant): Promise<void> {
+    // push for now, so that we can test
+    this.restaurants.push(props);
   }
 }
