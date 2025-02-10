@@ -1,16 +1,16 @@
 import { Router } from "express";
-import pool from "./adapters/mysql-adapter.js";
+import pool from "./adapters/mysql-adapter";
 import {
   IRestaurantRespository,
   MySQLRestaurantRepository,
-} from "./repositories/restaurant-repository.js";
+} from "./repositories/restaurant-repository";
 import {
   CreateRestaurantsUseCase,
   DeleteRestaurantUsecase,
   GetAllRestaurantsUseCase,
   GetRestaurantUseCase,
   UpdateRestaurantUseCase,
-} from "./use-cases/restaurant-use-cases.js";
+} from "./use-cases/restaurant-use-cases";
 
 const router = Router();
 
