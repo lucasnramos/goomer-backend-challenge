@@ -1,6 +1,7 @@
 import { Pool, PoolConnection } from "mysql";
 import { promisify } from "util";
 import Restaurant from "../entities/restaurant.js";
+import { randomUUID } from "crypto";
 
 export interface IRestaurantRespository {
   findAll(): Promise<Restaurant[]>;
@@ -117,7 +118,8 @@ export class InMemoryRestaurantRepository implements IRestaurantRespository {
     }
   }
   async create(props: Restaurant): Promise<void> {
-    this.restaurants.push(props);
+    const id = randomUUID();
+    this.restaurants.push({ ...props, id });
   }
   async delete(id: string): Promise<void> {
     const index = this.restaurants.findIndex(
