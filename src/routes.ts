@@ -19,7 +19,7 @@ const dataSource = pool;
 // use a simple in memory repository for initial testing purposes
 const repository: IRestaurantRespository =
   process.env.NODE_ENV === "test"
-    ? new InMemoryRestaurantRepository()
+    ? InMemoryRestaurantRepository.getInstance()
     : new MySQLRestaurantRepository(dataSource);
 
 const getAllRestaurants: GetAllRestaurantsUseCase =

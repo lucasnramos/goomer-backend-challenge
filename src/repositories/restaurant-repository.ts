@@ -104,7 +104,18 @@ export class MySQLRestaurantRepository implements IRestaurantRespository {
 }
 
 export class InMemoryRestaurantRepository implements IRestaurantRespository {
+  private static instance: InMemoryRestaurantRepository;
   private restaurants: Restaurant[] = [];
+
+  private constructor() {}
+
+  static getInstance(): InMemoryRestaurantRepository {
+    if (!InMemoryRestaurantRepository.instance) {
+      InMemoryRestaurantRepository.instance =
+        new InMemoryRestaurantRepository();
+    }
+    return InMemoryRestaurantRepository.instance;
+  }
 
   async findAll(): Promise<Restaurant[]> {
     return this.restaurants;
