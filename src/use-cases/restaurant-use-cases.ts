@@ -12,7 +12,7 @@ export class GetAllRestaurantsUseCase {
 export class CreateRestaurantsUseCase {
   constructor(private restaurantRepository: IRestaurantRespository) {}
 
-  async execute(restaurant: Restaurant): Promise<void> {
+  async execute(restaurant: Restaurant): Promise<Restaurant> {
     const restaurants = await new GetAllRestaurantsUseCase(
       this.restaurantRepository
     ).execute();
@@ -23,7 +23,10 @@ export class CreateRestaurantsUseCase {
       throw new Error(`Restaurant ${restaurant.name} already exists`);
     }
 
-    return await this.restaurantRepository.create(restaurant);
+    const response = await this.restaurantRepository.create(restaurant);
+    console.log(response);
+
+    return response;
   }
 }
 

@@ -18,9 +18,7 @@ const router = Router();
 const dataSource = pool;
 // use a simple in memory repository for initial testing purposes
 const repository: IRestaurantRespository =
-  process.env.NODE_ENV === "test"
-    ? InMemoryRestaurantRepository.getInstance()
-    : new MySQLRestaurantRepository(dataSource);
+  InMemoryRestaurantRepository.getInstance();
 
 const getAllRestaurants: GetAllRestaurantsUseCase =
   new GetAllRestaurantsUseCase(repository);
@@ -51,11 +49,11 @@ router.get("/restaurants/:id", async (req, res) => {
 router.post("/restaurants", async (req, res) => {
   try {
     const restaurant = req.body;
-    await createRestaurant.execute(restaurant);
-    res.sendStatus(201);
+    const result = await createRestaurant.execute(restaurant);
+    res.status(201).send(result);
   } catch (error) {
-    console.error("Failed to retrieve data", error);
-    res.status(500).send("Failed to retrieve data");
+    console.error("Failed to save new restaurant", error);
+    res.status(500).send("Failed to save new restaurant");
   }
 });
 router.put("/restaurants/:id", async (req, res) => {

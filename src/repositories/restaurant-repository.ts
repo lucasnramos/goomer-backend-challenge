@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 export interface IRestaurantRespository {
   findAll(): Promise<Restaurant[]>;
   findById(id: string): Promise<Restaurant>;
-  create(props: Restaurant): Promise<void>;
+  create(props: Restaurant): Promise<Restaurant>;
   delete(id: string): Promise<void>;
   update(props: Restaurant): Promise<void>;
 }
@@ -50,7 +50,7 @@ export class MySQLRestaurantRepository implements IRestaurantRespository {
     }
   }
 
-  async create(props: Restaurant): Promise<void> {
+  async create(props: Restaurant): Promise<Restaurant> {
     const getConnection = promisify(this.dataSource.getConnection).bind(
       this.dataSource
     );
@@ -58,10 +58,11 @@ export class MySQLRestaurantRepository implements IRestaurantRespository {
 
     try {
       const connection: PoolConnection = await getConnection();
-      await query(
+      const result = await query(
         `INSERT INTO restaurant (name, address, businessHours, pictureUrl) VALUES ('${props.name}', '${props.address}', '${props.businessHours}', '${props.pictureUrl}')`
       );
       connection.release();
+      return result as Restaurant;
     } catch (err) {
       console.error("Error in create: ", err);
       throw err;
@@ -128,9 +129,10 @@ export class InMemoryRestaurantRepository implements IRestaurantRespository {
       return {} as Restaurant;
     }
   }
-  async create(props: Restaurant): Promise<void> {
+  async create(props: Restaurant): Promise<Restaurant> {
     const id = randomUUID();
     this.restaurants.push({ ...props, id });
+    return { ...props, id };
   }
   async delete(id: string): Promise<void> {
     const index = this.restaurants.findIndex(
