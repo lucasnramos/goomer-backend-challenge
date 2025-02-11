@@ -19,7 +19,8 @@ I'm trying to implemement this repo using Clean Architecture
 
 ## TODO
 
-- [x] CRUD for Restaurants
+- [ ] CRUD for Restaurants
+  - [ ] Add tests
 - [ ] CRUD for Products
 - [ ] Ability to add discounts to products
 - [ ] Add automated tests with Jest or Vitest
