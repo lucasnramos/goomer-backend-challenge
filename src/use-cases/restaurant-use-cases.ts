@@ -46,7 +46,7 @@ export class GetRestaurantUseCase {
 
 export class UpdateRestaurantUseCase {
   constructor(private restaurantRepository: IRestaurantRespository) {}
-  async execute(props: Restaurant): Promise<void> {
+  async execute(props: Restaurant): Promise<Restaurant> {
     return await this.restaurantRepository.update(props);
   }
 }
